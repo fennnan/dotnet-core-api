@@ -76,6 +76,6 @@ stages:
               appType: 'webApp'
               azureSubscription: '$(azureSubscription)'
               appName: $(webAppName)
-              package: '$(System.DefaultWorkingDirectory)/**/drop/*.zip'
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               deploymentMethod: zipDeploy 
           
