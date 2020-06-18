@@ -12,15 +12,42 @@ pool:
 variables:
   azureSubscription: '4761f897-1f43-4f01-b552-3e783f27305e'
   
-stages:
+  # Working Directory
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  workingTestDirectory : '$(System.DefaultWorkingDirectory)'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- stage: Build
+  displayName: Build stage
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
 
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: Restore Nuget
+      inputs:
+        command: 'restore'
+        projects: |
+          $(workingDirectory)/*.csproj
+        vstsFeed: '1340e873-1429-4a12-8d6a-73006979dee9'
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: 'build'
+        projects: |
+          $(workingDirectory)/*.csproj
+        arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
 
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      artifact: drop
