@@ -7,7 +7,7 @@ trigger:
 - master
 
 variables:
-  azureSubscription: '450ae245-5067-40de-b56a-5ce6d358abb3'
+  azureSubscription: 'AdevintaHunters PoC Service Auth'
     
   # Function app name
   webAppName: 'af-rpt--customer-kpi'
