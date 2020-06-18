@@ -41,6 +41,7 @@ stages:
         projects: |
           $(workingDirectory)/*.csproj
         arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
+        publishWebProjects: true
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
