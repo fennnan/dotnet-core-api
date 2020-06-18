@@ -6,15 +6,13 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'windows-latest'
-
 variables:
   azureSubscription: '4761f897-1f43-4f01-b552-3e783f27305e'
   
   # Working Directory
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   workingTestDirectory : '$(System.DefaultWorkingDirectory)'
+  vmImageName : 'windows-latest'
 
 stages:
 - stage: Build
