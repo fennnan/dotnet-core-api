@@ -10,7 +10,7 @@ variables:
   azureSubscription: 'AdevintaHunters PoC Service Auth'
     
   # Function app name
-  webAppName: 'af-rpt--customer-kpi'
+  webAppName: 'wa-sre--techtest-poc'
 
   # Working Directory
   workingDirectory: '$(System.DefaultWorkingDirectory)'
