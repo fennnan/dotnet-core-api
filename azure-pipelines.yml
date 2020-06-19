@@ -71,12 +71,13 @@ stages:
         deploy:
 
           steps:
-          - task: AzureWebApp@1
-            displayName: 'Web app deploy'
+          - task: AzureRmWebAppDeployment@4
             inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'AdevintaHunters PoC Service Auth'
               appType: 'webApp'
-              azureSubscription: '$(azureSubscription)'
-              appName: $(webAppName)
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              deploymentMethod: zipDeploy 
+              WebAppName: 'wa-sre--techtest-poc'
+              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              enableCustomDeployment: true
+              DeploymentType: 'webDeploy'
           
