@@ -54,7 +54,7 @@ stages:
       artifact: drop
 
 - stage: Deployhunter
-  displayName: 'hunter Stage'
+  displayName: 'Deploy Hunter Stage'
   dependsOn: Build
   condition: succeeded()
 
@@ -70,13 +70,10 @@ stages:
         deploy:
 
           steps:
-          - task: AzureRmWebAppDeployment@4
+          - task: AzureWebApp@1
             inputs:
-              ConnectionType: 'AzureRM'
               azureSubscription: 'AdevintaHunters PoC Service Auth'
               appType: 'webApp'
-              WebAppName: 'wa-sre--techtest-poc'
-              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
-              enableCustomDeployment: true
-              DeploymentType: 'webDeploy'
-          
+              appName: 'wa-sre--techtest-poc'
+              package: '$(Pipeline.Workspace)/drop/*.zip'
+              deploymentMethod: 'zipDeploy'
