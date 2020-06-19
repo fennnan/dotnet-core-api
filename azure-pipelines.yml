@@ -76,7 +76,7 @@ stages:
               azureSubscription: 'AdevintaHunters PoC Service Auth'
               appType: 'webApp'
               WebAppName: 'wa-sre--techtest-poc'
-              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
               enableCustomDeployment: true
               DeploymentType: 'webDeploy'
           
