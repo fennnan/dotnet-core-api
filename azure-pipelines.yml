@@ -8,7 +8,8 @@ trigger:
 
 variables:
   azureSubscription: 'AdevintaHunters PoC Service Auth'
-    
+  BuildConfiguration: Release
+
   # Function app name
   webAppName: 'wa-sre--techtest-poc'
 
@@ -40,18 +41,16 @@ stages:
         command: 'build'
         projects: |
           $(workingDirectory)/*.csproj
-        arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
-        publishWebProjects: true
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
+        arguments: --configuration $(BuildConfiguration)
+    - task: DotNetCoreCLI@2
+      displayName: Publish
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        replaceExistingArchive: true
+        command: publish
+        publishWebProjects: true
+        arguments: --output $(Build.ArtifactStagingDirectory) --configuration $(BuildConfiguration)
+        zipAfterPublish: True
 
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    - publish: $(Build.ArtifactStagingDirectory)
       artifact: drop
 
 - stage: Deployhunter
